@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/components.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/login-4.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/css-loader.css" />
+    <title>ROSE PERDE</title>
+    <style>
+        .menuItem {
+            text-align: center;
+            background: #f34949;
+            color: white;
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+        }
+
+        .menuItem:hover {
+            background: #cc1a1a;
+            cursor: pointer;
+        }
+
+        .secili {
+            background: #cc1a1a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 satis" style="padding: 10px;">
+                <div class="col-md-4 col-xs-12">
+                </div>
+                <div class="col-md-4 col-xs-12" style="padding-top: 60px;">
+                    <div class="col-md-12 col-xs-12">
+                        <select id="cmdPersonel" style="width: 100%;">
+                            <option value="-1">Personel Seçiniz...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <label for="rdMesai">Mesai</label> <input type="radio" name="rd1" tip="1" tipadi="Mesai"
+                            id="rdMesai" checked>
+                        <label for="rdIzin" style="padding-left: 10%;">İzin</label> <input type="radio" tip="2"
+                            tipadi="İzin" name="rd1" id="rdIzin">
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <input type="number" min="0" id="txtSure" placeholder="Süre...">
+                        <label for="rdSaat">Saat</label> <input type="radio" suretip="Saat" name="rd2" id="rdSaat"
+                            checked>
+                        <label for="rdGun" style="padding-left: 10%;">Gün</label> <input type="radio" suretip="Gün"
+                            name="rd2" id="rdGun">
+                    </div>
+                    <div class="col-md-12 col-xs-12" style="padding-top: 25px;">
+                        <input type="button" style="height: 50px;width: 100%; background-color: green;color: white;"
+                            id="btnSave" value="KAYDET">
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <hr style="border-top: 2px solid rgb(255, 255, 255);margin: 0 0 20px 0;">
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.tr.min.js"></script>
+    <script type="text/javascript">
+
+        app.initialize();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            PersonelGetir();
+        });
+        function PersonelGetir() {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/Personels',
+                //                url: 'http://localhost:22942/Mobile/Personels',
+                type: 'POST',
+                data: {
+                },
+                success: function (response, textStatus, xhr) {
+                    $("#cmdPersonel option:not(:first)").remove();
+
+                    for (var i = 0; i < response.length; i++) {
+                        $("#cmdPersonel").append('<option value="' + response[i].ID + '">' + response[i].AdSoyad + '</option>');
+                    }
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        }
+
+        $("#btnSave").click(function () {
+            if ($("#cmdPersonel").val() == "-1") {
+                alert("Lütfen Personel Seçin");
+                return false;
+            }
+            if ($("#txtSure").val() <= 0) {
+                alert("Lütfen Süre Girin");
+                return false;
+            }
+
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/SaveMesaiIzin',
+                // url: 'http://localhost:22942/Mobile/SaveMesaiIzin',
+                type: 'POST',
+                data: {
+                    ID: $("#cmdPersonel").val(),
+                    PAdi: $("#cmdPersonel option:selected").text(),
+                    Tip: $("input[name='rd1']:checked").attr("tip"),
+                    TipAdi: $("input[name='rd1']:checked").attr("tipadi"),
+                    Sure: $("#txtSure").val(),
+                    Suretip: $("input[name='rd2']:checked").attr("suretip"),
+                },
+                success: function (response, textStatus, xhr) {
+                    alert("Başarıyla Kaydedildi");
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

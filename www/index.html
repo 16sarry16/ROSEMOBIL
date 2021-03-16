@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/components.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/login-4.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="css/css-loader.css" />
+    <title>ROSE PERDE</title>
+    <style>
+        .menuItem {
+            text-align: center;
+            background: #f34949;
+            color: white;
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+        }
+
+        .menuItem:hover {
+            background: #cc1a1a;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="position: fixed; top: 0;padding: 0;width: 100%;">
+        <div class="row" id="dvBas">
+            <div class="col-xs-12" style="border-bottom: 1px solid;">
+                <div class="col-md-3 col-xs-3">
+                    <img src="http://admin.roseperde.com/img/logo.jpg" style="height: 50px;">
+                </div>
+                <!-- <div class="col-md-9 col-xs-9" style="text-align: right;">
+                    <img src="http://admin.roseperde.com/img/logo.jpg" style="height: 50px;">
+                </div> -->
+            </div>
+        </div>
+
+        <div class="row" style="padding: 5px;overflow: auto;" id="dvOrta" >
+            <div class="col-md-12" style="padding: 5px;">
+
+                <div class="col-md-4" style="padding-bottom: 5px;">
+                    <div class="col-md-12"
+                        style="background-color: grey;padding: 5px;color: white;height: 250px;max-height: 250px;overflow: auto;">
+                        <table class="table responsive" id="tblSip">
+                            <thead>
+                                <tr style="background-color:  #f34949;">
+                                    <th>SİPARİŞLER</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbodymsip">
+                                <tr>
+                                    <td style="width: 70%;">TOPLAM SİPARİŞ SAYISI :</td>
+                                    <td style="width: 30%;" id="tdTopSip">550</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 70%;">TESLİM EDİLEN SİPARİŞ :</td>
+                                    <td style="width: 30%;" id="tdTopTeslim">550</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 70%;">İMALATTAKİ SİPARİŞ :</td>
+                                    <td style="width: 30%;" id="tdTopImalat">550</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-bottom: 5px;">
+                    <div class="col-md-12"
+                        style="background-color: grey;padding: 5px;color: white;height: 250px;max-height: 250px;overflow: auto;">
+                        <table class="table responsive" id="tblSat">
+                            <thead>
+                                <tr style="background-color:  #f34949;">
+                                    <th>SATIŞLAR</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbodyms">
+                                <tr>
+                                    <td style="width: 70%;">GÜNLÜK SATIŞ :</td>
+                                    <td style="width: 30%;" id="tdGunluk">550</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 70%;">AYLIK SATIŞ :</td>
+                                    <td style="width: 30%;" id="tdAylik">550</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 70%;">TOPLAM SATIŞ :</td>
+                                    <td style="width: 30%;" id="tdToplam">550</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding-bottom: 5px;">
+                    <div class="col-md-12"
+                        style="background-color: grey;padding: 5px;color: white;height: 250px;max-height: 250px;overflow: auto;">
+                        <table class="table responsive" id="tblStk">
+                            <thead>
+                                <tr style="background-color:  #f34949;">
+                                    <th>STOKLAR</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbodym">
+                              
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="position: fixed; bottom: 0;padding: 0;width: 100%;" id="dvAlt">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-md-4 col-xs-4 menuItem" onclick="Imalat();">
+                    <div style="font-size:12px;padding-top:10px;"> İMALAT </div>
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <div class="col-md-4 col-xs-4 menuItem" onclick="Stoklar();">
+                    <div style="font-size:12px;padding-top:10px;"> STOKLAR </div>
+                    <i class="fa fa-bar-chart"></i>
+
+                </div>
+                <div class="col-md-4 col-xs-4 menuItem" onclick="Izinler();">
+                    <div style="font-size:12px;padding-top:10px;"> İZİN/MESAİ </div>
+                    <i class="fa fa-university"></i>
+                </div>
+
+                <div class="col-md-3 menuItem" style="display: none;" onclick="LogOut();">
+                    <div style="font-size:12px;padding-top:20px;"> ÇIKIŞ </div>
+                    <i class="fa fa-sign-out" style="line-height: inherit;font-size:40px;"></i>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var wh = $(window).height() - 100;
+            $("#dvOrta").css("max-height", wh + "px");
+            VeriGetir();
+        });
+
+        function Imalat() {
+            window.location.href = "imalat.html";
+        }
+        function Stoklar() {
+            window.location.href = "stoklar.html";
+        }
+        function Izinler() {
+            window.location.href = "izinler.html";
+        }
+
+        $(window).resize(function () {
+            var wh = $(window).height() - 100;
+            $("#dvOrta").css("max-height", wh + "px");
+        });
+        
+        function VeriGetir() {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/Dash',
+                type: 'POST',
+                data: {
+                },
+                success: function (response, textStatus, xhr) {
+                    $("#tdTopSip").html(response.Dash.TOPSIP);
+                    $("#tdTopImalat").html(response.Dash.IMALAT);
+                    $("#tdTopTeslim").html(response.Dash.TESLIM);
+                    $("#tdGunluk").html(response.Dash.GSATIS);
+                    $("#tdAylik").html(response.Dash.ASATIS);
+                    $("#tdToplam").html(response.Dash.TSATIS);
+
+                    $(".tbodym tr").remove();
+                    for (var i = 0; i < response.DashStok.length; i++) {
+                        $(".tbodym").append('<tr>'+
+                                '<td style="width: 70%;">'+response.DashStok[i].STOKKODU+'</td>'+
+                                '<td style="width: 30%;">'+response.DashStok[i].TOPS+'</td>'+
+                            '</tr>');
+                    }
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

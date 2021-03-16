@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/components.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/login-4.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/css-loader.css" />
+    <title>ROSE PERDE</title>
+    <style>
+        .menuItem {
+            text-align: center;
+            background: #f34949;
+            color: white;
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+        }
+
+        .menuItem:hover {
+            background: #cc1a1a;
+            cursor: pointer;
+        }
+
+        .secili{
+            background: #cc1a1a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 satis" style="padding: 10px;">
+                <div class="col-md-3 col-xs-6">
+                    Başlangıç
+                    <div class="input-append date">
+                        <input id="txtTarihBas" type="text" class="span2 form-control"><span class="add-on"><i
+                                class="icon-th"></i></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-6">
+                    Bitiş
+                    <div class="input-append date">
+                        <input id="txtTarihBit" type="text" class="span2 form-control"><span class="add-on"><i
+                                class="icon-th"></i></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-12">
+
+                    <span style="padding: 0;margin: 0;visibility: hidden;">.</span>
+                    <a class="form-control" id="btnListele"
+                        style="width: 100% !important; background: #f34949;color:white;text-align: center;"
+                        href="javascript:;">
+                        Listele
+                        <i class="fa fa-search"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-12" style="padding-top: 10px;">
+                <input type="text" id="txtSearch" placeholder="Arama Yapın">
+            </div>
+            <div class="col-xs-12">
+                <hr style="border-top: 2px solid rgb(255, 255, 255);margin: 0 0 20px 0;">
+            </div>
+            <div class="col-xs-12" style="padding-top: 10px;">
+                <table class="table responsive" id="tblSip">
+                    <thead>
+                        <tr>
+                            <th>Firma</th>
+                            <th>Açıklama</th>
+                            <th>Stok</th>
+                            <th>Adet</th>
+                            <th>En</th>
+                            <th>Boy</th>
+                            <th>Yön</th>
+                            <th>Özellik</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbodym">
+                            
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12 tmmbuton" style="position:fixed;bottom: 0;display: none;">
+                <button class="col-xs-12 btn green">TAMAMLA</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.tr.min.js"></script>
+    <script type="text/javascript">
+
+        app.initialize();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SatisGetir();
+        });
+        $("#btnListele").click(function () {
+            SatisGetir();
+            return false;
+        });
+        $(document).on("click",".tbodym tr",function(){
+            $(".tbodym tr").removeClass("secili");
+            var sipno = $(this).attr("sipno");
+            $(this).addClass("secili");
+            $(".tmmbuton").show();
+        });
+        $("#txtSearch").keyup(function () {
+            myFunction();
+        });
+
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("txtSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tblSip");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                td1 = tr[i].getElementsByTagName("td")[2];
+                if (td || td1) {
+                    txtValue = td.textContent || td.innerText;
+                    txtValue1 = td1.textContent || td1.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValue1.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        function SatisGetir() {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/Tasks',
+                type: 'POST',
+                data: {
+                     t1: $("#txtTarihBas").val(),
+                     t2: $("#txtTarihBit").val()
+                    // kayityapan: localStorage.getItem('KullaniciID')
+                },
+                success: function (response, textStatus, xhr) {
+                    $(".tbodym tr").remove();
+
+                    for (var i = 0; i < response.length; i++) {
+                        $(".tbodym").append('<tr sipno='+response[i].SiparisNo+'>'+
+                                '<td>'+response[i].MusteriAdi+'</td>'+
+                                '<td>'+response[i].MusteriIsmi+'</td>'+
+                                '<td>'+response[i].StokKodu+'</td>'+
+                                '<td>'+response[i].Adet+'</td>'+
+                                '<td>'+response[i].En+'</td>'+
+                                '<td>'+response[i].Boy+'</td>'+
+                                '<td>'+response[i].Yon+'</td>'+
+                                '<td>'+response[i].Aciklama+' '+response[i].Ozellik+'</td>'+
+                            '</tr>');
+                    }
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

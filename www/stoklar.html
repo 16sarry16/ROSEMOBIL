@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/components.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/login-4.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/css-loader.css" />
+    <title>ROSE PERDE</title>
+    <style>
+        .menuItem {
+            text-align: center;
+            background: #f34949;
+            color: white;
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+        }
+
+        .menuItem:hover {
+            background: #cc1a1a;
+            cursor: pointer;
+        }
+
+        .secili {
+            background: #cc1a1a;
+        }
+
+        #sepet-alan,
+        #sepet-alan1 {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #FDF0D5;
+            z-index: 550;
+            display: none;
+        }
+
+        #sepet-alan .baslik,
+        #sepet-alan1 .baslik {
+            width: 100%;
+            background: #D81E5B;
+            margin-top: 0;
+        }
+
+        #sepet-alan .baslik span,
+        #sepet-alan1 .baslik span {
+            display: block;
+            text-align: right;
+            font-size: 30px;
+            color: white;
+            padding-right: 10px;
+            cursor: pointer;
+        }
+
+        #tblStoklar tr {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader loader-default is-active" style="display:none;"></div>
+    <div id="sepet-alan1" class="col-md-12" style="padding: 0;z-index: 999999;display: none;">
+        <div class="col-md-12" style="padding: 0;">
+            <h2 class="baslik">
+                <span id="btnBck" class="kapat">
+                    <i class="fa fa-times"></i></span>
+            </h2>
+        </div>
+        <div id="sepet-alan-ic1" class="col-md-12 col-xs-12">
+            <div class="col-md-4 col-xs-12">
+
+            </div>
+            <div class="col-md-4 col-xs-12" style="text-align: center;">
+                <div class="col-md-12 col-xs-12">
+                    <span id="txtTarih"></span>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <input type="number" id="txtTopUp">
+                </div>
+                <div class="col-md-12 col-xs-12" style="padding-top: 10px;">
+                    <input type="button" style="height: 50px;" id="btnTopUp" value="KAYDET">
+                    <!-- <input type="button" style="height: 50px;" id="btnBck" value="VAZGEÇ"> -->
+
+                    <input type="button" id="btnTopDel"
+                        style="background-color: red;color: white;height: 50px; width: 50px;" value="SİL">
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="sepet-alan" class="col-md-12" style="padding: 0;">
+        <div class="col-md-12" style="padding: 0;">
+            <h2 class="baslik">
+                <span id="cart-close" class="kapat">
+                    <i class="fa fa-times"></i></span>
+            </h2>
+        </div>
+        <div id="sepet-alan-ic" class="col-md-12 col-xs-12">
+            <div class="col-md-12 col-xs-12">
+                <span id="spnUrun"></span>
+            </div>
+            <div class="col-md-6 col-xs-6" style="border: 1px solid;">
+                <div class="col-md-4 col-xs-12">
+                    Top Metre
+                    <input style="width: 100%;" id="txtUrunTop" type="number">
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    Açıklama
+                    <input style="width: 100%;" id="txtAciklama" type="text">
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    .
+                    <input style="width: 100%;height: 50px;" type="button" id="btnTop" value="EKLE">
+                </div>
+                <div class="col-md-12 col-xs-12 lsttbl" style="padding-top: 10px;max-height: 240px;overflow: auto;">
+                    <table class="table responsive" id="tblTopListesi">
+                        <thead>
+                            <tr>
+                                <th>Top</th>
+                                <th>Önceki Top</th>
+                                <th>Açıklama</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbodytop">
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-6" style="border: 1px solid;">
+                <div class="col-md-5 col-xs-6">
+                    En
+                    <input style="width: 100%;" id="txtEn" type="number">
+                </div>
+                <div class="col-md-5 col-xs-6">
+                    Boy
+                    <input style="width: 100%;" id="txtBoy" type="number">
+                </div>
+                <div class="col-md-2 col-xs-12">
+                    .
+                    <input style="width: 100%;height: 50px;" type="button" id="btnParca" value="EKLE">
+                </div>
+                <div class="col-md-12 col-xs-12 lsttbl" style="padding-top: 10px;max-height: 240px;overflow: auto;">
+                    <table class="table responsive" id="tblParcaListesi">
+                        <thead>
+                            <tr>
+                                <th>En</th>
+                                <th>Boy</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbodyparca">
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 col-xs-12 tmmbuton" style="position:fixed;bottom: 0;display: none;">
+            <button id="btnKullan" class="col-xs-12 btn green">KULLAN</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12" style="padding-top: 10px;">
+                <input type="number" id="txtSearch" placeholder="Arama Yapın">
+
+                <input type="button" id="txtRefresh" value="↻ YENİLE" style="float: right;">
+            </div>
+            <div class="col-xs-12" style="padding-top: 10px;">
+                <table id="tblStoklar" class="table responsive">
+                    <thead>
+                        <tr>
+                            <th>Türü</th>
+                            <th>Kodu</th>
+                            <th>Stok Miktar</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbodym" id="tblStoklart">
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datepicker.tr.min.js"></script>
+    <script type="text/javascript">
+
+        app.initialize();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            StokGetir();
+            var wh = $(window).height() - 200;
+            $(".lsttbl").css("max-height", wh + "px");
+        });
+
+        $("#cart-close").click(function () {
+            $("#sepet-alan").hide();
+            //StokGetir();
+            return false;
+        });
+
+        $("#txtRefresh").click(function () {
+            StokGetir();
+            return false;
+        });
+
+        $(window).resize(function () {
+            var wh = $(window).height() - 200;
+            $(".lsttbl").css("max-height", wh + "px");
+        });
+
+        $(document).on("click", ".tbodyparca tr", function () {
+            $(".tbodyparca tr").removeClass("secili");
+            var sipno = $(this).attr("id");
+            $(this).addClass("secili");
+            $(".tmmbuton").show();
+        });
+
+        $(document).on("click", ".tbodytop tr", function () {
+            var tariparca = $(this).attr("tarih").replace('/', '-').replace('/', '-').replace('/', '-').split('-');
+            var ttt = tariparca[1] + '-' + tariparca[0] + '-' + tariparca[2];
+            $(".tbodytop tr").removeClass("secili");
+            var topid = $(this).attr("id");
+            $(this).addClass("secili");
+            $("#txtTopUp").val($(" td:eq(0)", this).text());
+            $("#txtTarih").text(ttt);
+            $("#sepet-alan1").show();
+
+            $("#txtTopUp").focus();
+
+            return false;
+        });
+
+        $("#btnBck").click(function () {
+            $("#sepet-alan1").hide();
+            $(".tbodytop tr").removeClass("secili");
+            return false;
+        });
+
+        $("#btnTopUp").click(function () {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/UpdateStocks',
+                //url: 'http://localhost:22942/Mobile/UpdateStocks',
+                type: 'POST',
+                data: {
+                    id: $(".tbodytop tr.secili").attr("id"),
+                    miktar: $("#txtTopUp").val()
+                },
+                success: function (response, textStatus, xhr) {
+                    $(".tbodytop tr.secili td:eq(1)").text($(".tbodytop tr.secili td:eq(0)").text());
+                    $(".tbodytop tr.secili td:eq(0)").text($("#txtTopUp").val());
+                    $("#sepet-alan1").hide();
+                    $(".tbodytop tr").removeClass("secili");
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+            return false;
+        });
+
+        $("#txtSearch").keyup(function () {
+            myFunction();
+        });
+
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("txtSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tblStoklart");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        $("#btnTop").click(function () {
+            if ($("#txtUrunTop").val() > 0) {
+                $(".loader").show();
+                $.ajax({
+                    url: 'http://admin.roseperde.com/Mobile/SaveTopStocks',
+                    // url: 'http://localhost:22942/Mobile/SaveTopStocks',
+                    type: 'POST',
+                    data: {
+                        kodu: $("#spnUrun").text(),
+                        miktar: $("#txtUrunTop").val(),
+                        aciklama: $("#txtAciklama").val()
+                    },
+                    success: function (response, textStatus, xhr) {
+
+                        $(".tbodytop").append('<tr id=' + response + ' turu=' + $("#spnUrun").text() + '>' +
+                            '<td>' + $("#txtUrunTop").val() + '</td>' +
+                            '<td></td>' +
+                            '<td>' + $("#txtAciklama").val() + '</td>' +
+                            '</tr>');
+
+                        $("#txtUrunTop").val("");
+                        $("#txtAciklama").val("");
+                        $(".loader").hide();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert("Hata Oluştu");
+                        $(".loader").hide();
+                    }
+                });
+
+            }
+        });
+
+        $("#btnParca").click(function () {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/SavePieceStocks',
+                //url: 'http://localhost:22942/Mobile/SavePieceStocks',
+                type: 'POST',
+                data: {
+                    kodu: $("#spnUrun").text(),
+                    en: $("#txtEn").val(),
+                    boy: $("#txtBoy").val()
+                },
+                success: function (response, textStatus, xhr) {
+
+                    $(".tbodyparca").append('<tr id=' + response + ' turu=' + $("#spnUrun").text() + '>' +
+                        '<td>' + $("#txtEn").val() + '</td>' +
+                        '<td>' + $("#txtBoy").val() + '</td>' +
+                        '</tr>');
+                    $("#txtEn").val("");
+                    $("#txtBoy").val("");
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        });
+
+        $("#btnTopDel").click(function () {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/DeleteTopStocks',
+                //url: 'http://localhost:22942/Mobile/DeleteTopStocks',
+                type: 'POST',
+                data: {
+
+                    id: $(".tbodytop tr.secili").attr("id")
+                },
+                success: function (response, textStatus, xhr) {
+                    if (response == "ok") {
+                        $(".tbodytop tr.secili").remove();
+                        $("#sepet-alan1").hide();
+                    }
+
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        });
+
+        $("#btnKullan").click(function () {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/DeletePieceStocks',
+                //url: 'http://localhost:22942/Mobile/DeletePieceStocks',
+                type: 'POST',
+                data: {
+                    id: $(".tbodyparca tr.secili").attr("id")
+                },
+                success: function (response, textStatus, xhr) {
+                    if (response == "ok") {
+                        $(".tbodyparca tr.secili").remove();
+                        $(".tmmbuton").hide();
+                    }
+
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        });
+
+        $(document).on("click", ".tbodym tr", function () {
+            $(".tbodyparca tr").removeClass("secili");
+            var turu = $(this).attr("turu");
+            $("#spnUrun").text(turu);
+            //$(this).addClass("secili");
+            $(".tmmbuton").hide();
+            $("#sepet-alan").show();
+            ParcaListesiGetir(turu);
+        });
+
+        $("input").focus(function () {
+            $(this).select();
+        });
+
+        function ParcaListesiGetir(turu) {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/GetPieceStocks',
+                // url: 'http://localhost:22942/Mobile/GetPieceStocks',
+                type: 'POST',
+                data: {
+                    turu: turu
+                },
+                success: function (response, textStatus, xhr) {
+                    $(".tbodyparca tr").remove();
+                    $(".tbodytop tr").remove();
+                    for (var i = 0; i < response.Pieceses.length; i++) {
+                        $(".tbodyparca").append('<tr id=' + response.Pieceses[i].Id + ' turu=' + turu + '>' +
+                            '<td>' + response.Pieceses[i].En + '</td>' +
+                            '<td>' + response.Pieceses[i].Boy + '</td>' +
+                            '</tr>');
+                    }
+
+                    for (var i = 0; i < response.Tops.length; i++) {
+                        var split = response.Tops[i].Tarih.split(' ')[0]
+
+                        $(".tbodytop").append('<tr id=' + response.Tops[i].Id + ' turu=' + turu + ' tarih =' + split + '>' +
+                            '<td>' + response.Tops[i].Miktar + '</td>' +
+                            '<td>' + response.Tops[i].OncekiStok + '</td>' +
+                            '<td>' + response.Tops[i].Aciklama + '</td>' +
+                            '</tr>');
+                    }
+
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+
+        }
+        function StokGetir() {
+            $(".loader").show();
+            $.ajax({
+                url: 'http://admin.roseperde.com/Mobile/Stocks',
+                //url: 'http://localhost:22942/Mobile/Stocks',
+                type: 'POST',
+                data: {
+
+                },
+                success: function (response, textStatus, xhr) {
+                    $(".tbodym tr").remove();
+
+                    for (var i = 0; i < response.length; i++) {
+                        $(".tbodym").append('<tr id=' + response[i].Id + ' turu=' + response[i].Turu + ' miktar=' + response[i].StokMiktar + '>' +
+                            '<td>' + response[i].Turu + '</td>' +
+                            '<td>' + response[i].Kodu + '</td>' +
+                            '<td>' + response[i].StokMiktar + '</td>' +
+                            '</tr>');
+                    }
+                    $(".loader").hide();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hata Oluştu");
+                    $(".loader").hide();
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>
